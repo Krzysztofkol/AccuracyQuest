@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AccuracyQuest</title>
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .accuracy {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .question-info {
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        #currentQuestion {
+            width: 30px;
+            text-align: center;
+            margin: 0 5px;
+        }
+        .question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .answer-nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .answer-buttons {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .answer-button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .answer-button:disabled {
+            cursor: not-allowed;
+        }
+        .correct {
+            background-color: #48bb78;
+            color: white;
+        }
+        .incorrect {
+            background-color: #e53e3e;
+            color: white;
+        }
+        .navigation {
+            display: flex;
+            flex-direction: column;
+        }
+        .navigation-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4299e1;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .navigation-button:disabled {
+            background-color: #a0aec0;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="container">
+    <div class="header">
+        <div>
+            <div class="accuracy">
+                Total Accuracy: <span id="totalAccuracy">0</span>%
+            </div>
+            <div class="accuracy">
+                20-Rolling Accuracy: <span id="rollingAccuracy">0</span>%
+            </div>
+        </div>
+        <div class="question-info">
+            Question <input type="number" id="currentQuestion" min="1" value="1">/<span id="totalQuestions">0</span>
+        </div>
+    </div>
+    <div id="questionContainer">
+        <p id="questionText" class="question"></p>
+        <div class="answer-nav-container">
+            <div class="answer-buttons">
+                <button onclick="submitAnswer('True')" id="trueButton" class="answer-button">True</button>
+                <button onclick="submitAnswer('False')" id="falseButton" class="answer-button">False</button>
+            </div>
+            <div class="navigation">
+                <button onclick="navigate(-1)" id="backButton" class="navigation-button">Back</button>
+                <button onclick="navigate(1)" id="forwardButton" class="navigation-button">Forward</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+let questions = [];
+let currentIndex = 0;
+let totalCorrect = 0;
+let answeredQuestions = [];
+
+async function fetchWithRetry(url, options = {}, retries = 3) {
+    try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response;
+    } catch (error) {
+        if (retries > 0) {
+            console.log(`Retrying fetch to ${url}. Attempts left: ${retries - 1}`);
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return fetchWithRetry(url, options, retries - 1);
+        }
+        throw error;
+    }
+}
+
+async function checkBackendHealth() {
+    try {
+        const response = await fetchWithRetry('/health');
+        const data = await response.json();
+        if (data.status === 'healthy') {
+            await fetchQuestions();
+        }
+    } catch (error) {
+        console.error("Backend health check failed:", error);
+        document.getElementById('questionText').textContent = `Error: Unable to connect to the backend. Please check if the server is running. (${error.message})`;
+    }
+}
+
+async function fetchQuestions() {
+    try {
+        const response = await fetchWithRetry('/api/questions');
+        questions = await response.json();
+        if (Array.isArray(questions) && questions.length > 0) {
+            document.getElementById('totalQuestions').textContent = questions.length;
+            initializeAnsweredQuestions();
+            calculateAccuracies();
+            displayQuestion();
+        } else {
+            throw new Error("No questions received from the server");
+        }
+    } catch (error) {
+        console.error("Error fetching questions:", error);
+        document.getElementById('questionText').textContent = `Error loading questions: ${error.message}. Please check the console and ensure the backend is running.`;
+    }
+}
+
+function initializeAnsweredQuestions() {
+    answeredQuestions = questions.map(q => ({ ...q, correct: q.user_answer === q.correct_answer }));
+}
+
+function calculateAccuracies() {
+    const answeredCount = answeredQuestions.filter(q => q.user_answer !== '').length;
+    totalCorrect = answeredQuestions.filter(q => q.user_answer === q.correct_answer).length;
+    const totalAccuracy = (answeredCount === 0) ? 0 : (totalCorrect / answeredCount) * 100;
+    const last20Answered = answeredQuestions.filter(q => q.user_answer !== '').slice(-20);
+    const last20Correct = last20Answered.filter(q => q.user_answer === q.correct_answer).length;
+    const rollingAccuracy = (last20Answered.length === 0) ? 0 : (last20Correct / last20Answered.length) * 100;
+    
+    document.getElementById('totalAccuracy').textContent = totalAccuracy.toFixed(0);
+    document.getElementById('rollingAccuracy').textContent = rollingAccuracy.toFixed(0);
+}
+
+function displayQuestion() {
+    if (questions.length === 0) {
+        document.getElementById('questionText').textContent = 'No questions available.';
+        return;
+    }
+    const question = questions[currentIndex];
+    document.getElementById('questionText').textContent = question.question;
+    document.getElementById('currentQuestion').value = currentIndex + 1;
+    updateButtons();
+}
+
+function updateButtons() {
+    const question = questions[currentIndex];
+    if (question.user_answer) {
+        document.getElementById('trueButton').disabled = true;
+        document.getElementById('falseButton').disabled = true;
+        colorAnswers(question.user_answer === question.correct_answer, question.user_answer);
+    } else {
+        document.getElementById('trueButton').disabled = false;
+        document.getElementById('falseButton').disabled = false;
+        document.getElementById('trueButton').className = 'answer-button';
+        document.getElementById('falseButton').className = 'answer-button';
+    }
+    document.getElementById('backButton').disabled = currentIndex === 0;
+    document.getElementById('forwardButton').disabled = currentIndex === questions.length - 1;
+}
+
+function colorAnswers(isCorrect, answer) {
+    document.getElementById('trueButton').className = 'answer-button';
+    document.getElementById('falseButton').className = 'answer-button';
+    const selectedButton = document.getElementById(`${answer.toLowerCase()}Button`);
+    selectedButton.className = `answer-button ${isCorrect ? 'correct' : 'incorrect'}`;
+}
+
+async function submitAnswer(answer) {
+    try {
+        const response = await fetchWithRetry('/api/answer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ index: currentIndex, answer }),
+        });
+        const data = await response.json();
+        if (data.success) {
+            const question = questions[currentIndex];
+            question.user_answer = answer;
+            const isCorrect = data.correct;
+            answeredQuestions[currentIndex].correct = isCorrect;
+            answeredQuestions[currentIndex].user_answer = answer;
+            if (isCorrect) {
+                totalCorrect++;
+            }
+            calculateAccuracies();
+            colorAnswers(isCorrect, answer);
+            updateButtons();
+        }
+    } catch (error) {
+        console.error("Error submitting answer:", error);
+        alert(`Error submitting answer: ${error.message}`);
+    }
+}
+
+function navigate(direction) {
+    currentIndex = Math.max(0, Math.min(questions.length - 1, currentIndex + direction));
+    displayQuestion();
+}
+
+document.getElementById('currentQuestion').addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+        let newIndex = parseInt(this.value) - 1;
+        if (isNaN(newIndex) || newIndex < 0) {
+            newIndex = 0;
+        } else if (newIndex >= questions.length) {
+            newIndex = questions.length - 1;
+        }
+        currentIndex = newIndex;
+        displayQuestion();
+    }
+});
+
+checkBackendHealth();
+</script>
+</body>
+</html>

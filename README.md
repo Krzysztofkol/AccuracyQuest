@@ -11,13 +11,17 @@ AccuracyQuest/
 ### Installation guide
 
 1. Open main repository page https://github.com/Krzysztofkol/AccuracyQuest
-2. Click green `<> Code` button
+2. Click green `<> Code` button to download the files
 3. Select `Local` tab > `HTTPS` subtab > `Download ZIP` button
 4. Download compressed folder `AccuracyQuest-main.zip` somewhere to your PC
 5. Unzip `AccuracyQuest-main.zip`
 6. Go to the main folder `AccuracyQuest-main` or `AccuracyQuest`
 7. Run code by double-clicking `start-accuracy-quest.bat`
 8. Navigate to the opened browser tab with frontend `http://localhost:8080/` opened
+
+### Dependencies:
+
+- flask `pip install flask -U`
 
 ### Modifying questions
 

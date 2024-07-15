@@ -40,27 +40,41 @@
         }
         .question {
             font-size: 24px;
+            margin-top: 20px;
             margin-bottom: 20px;
+            text-align: center;
         }
-        .answer-nav-container {
+        .buttons-container {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px; /* Add margin-bottom to buttons-container */
         }
-        .answer-buttons {
-            flex-grow: 1;
-            margin-right: 10px;
+        .button-row {
+            display: flex;
+            gap: 10px;
         }
-        .answer-button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
+        .button {
+            flex: 1;
+            padding: 15px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 16px;
+            text-align: center;
         }
-        .answer-button:disabled {
+        .button:disabled {
             cursor: not-allowed;
+        }
+        .navigation-button {
+            background-color: #4299e1;
+            color: white;
+        }
+        .navigation-button:disabled {
+            background-color: #a0aec0;
+        }
+        .answer-button {
+            background-color: #e2e8f0;
         }
         .correct {
             background-color: #48bb78;
@@ -69,23 +83,6 @@
         .incorrect {
             background-color: #e53e3e;
             color: white;
-        }
-        .navigation {
-            display: flex;
-            flex-direction: column;
-        }
-        .navigation-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            background-color: #4299e1;
-            color: white;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-        .navigation-button:disabled {
-            background-color: #a0aec0;
-            cursor: not-allowed;
         }
     </style>
 </head>
@@ -101,21 +98,21 @@
             </div>
         </div>
         <div class="question-info">
-            Question <input type="number" id="currentQuestion" min="1" value="1">/<span id="totalQuestions">0</span>
+            Question <input type="text" id="currentQuestion" value="1">/<span id="totalQuestions">0</span>
+        </div>
+    </div>
+    <div class="buttons-container">
+        <div class="button-row">
+            <button onclick="navigate(-1)" id="backButton" class="button navigation-button">Back</button>
+            <button onclick="navigate(1)" id="forwardButton" class="button navigation-button">Forward</button>
+        </div>
+        <div class="button-row">
+            <button onclick="submitAnswer('True')" id="trueButton" class="button answer-button">True</button>
+            <button onclick="submitAnswer('False')" id="falseButton" class="button answer-button">False</button>
         </div>
     </div>
     <div id="questionContainer">
         <p id="questionText" class="question"></p>
-        <div class="answer-nav-container">
-            <div class="answer-buttons">
-                <button onclick="submitAnswer('True')" id="trueButton" class="answer-button">True</button>
-                <button onclick="submitAnswer('False')" id="falseButton" class="answer-button">False</button>
-            </div>
-            <div class="navigation">
-                <button onclick="navigate(-1)" id="backButton" class="navigation-button">Back</button>
-                <button onclick="navigate(1)" id="forwardButton" class="navigation-button">Forward</button>
-            </div>
-        </div>
     </div>
 </div>
 <script>
@@ -123,7 +120,6 @@ let questions = [];
 let currentIndex = 0;
 let totalCorrect = 0;
 let answeredQuestions = [];
-
 async function fetchWithRetry(url, options = {}, retries = 3) {
     try {
         const response = await fetch(url, options);
@@ -140,7 +136,6 @@ async function fetchWithRetry(url, options = {}, retries = 3) {
         throw error;
     }
 }
-
 async function checkBackendHealth() {
     try {
         const response = await fetchWithRetry('/health');
@@ -153,7 +148,6 @@ async function checkBackendHealth() {
         document.getElementById('questionText').textContent = `Error: Unable to connect to the backend. Please check if the server is running. (${error.message})`;
     }
 }
-
 async function fetchQuestions() {
     try {
         const response = await fetchWithRetry('/api/questions');
@@ -171,11 +165,9 @@ async function fetchQuestions() {
         document.getElementById('questionText').textContent = `Error loading questions: ${error.message}. Please check the console and ensure the backend is running.`;
     }
 }
-
 function initializeAnsweredQuestions() {
     answeredQuestions = questions.map(q => ({ ...q, correct: q.user_answer === q.correct_answer }));
 }
-
 function calculateAccuracies() {
     const answeredCount = answeredQuestions.filter(q => q.user_answer !== '').length;
     totalCorrect = answeredQuestions.filter(q => q.user_answer === q.correct_answer).length;
@@ -187,7 +179,6 @@ function calculateAccuracies() {
     document.getElementById('totalAccuracy').textContent = totalAccuracy.toFixed(0);
     document.getElementById('rollingAccuracy').textContent = rollingAccuracy.toFixed(0);
 }
-
 function displayQuestion() {
     if (questions.length === 0) {
         document.getElementById('questionText').textContent = 'No questions available.';
@@ -198,7 +189,6 @@ function displayQuestion() {
     document.getElementById('currentQuestion').value = currentIndex + 1;
     updateButtons();
 }
-
 function updateButtons() {
     const question = questions[currentIndex];
     if (question.user_answer) {
@@ -208,20 +198,18 @@ function updateButtons() {
     } else {
         document.getElementById('trueButton').disabled = false;
         document.getElementById('falseButton').disabled = false;
-        document.getElementById('trueButton').className = 'answer-button';
-        document.getElementById('falseButton').className = 'answer-button';
+        document.getElementById('trueButton').className = 'button answer-button';
+        document.getElementById('falseButton').className = 'button answer-button';
     }
     document.getElementById('backButton').disabled = currentIndex === 0;
     document.getElementById('forwardButton').disabled = currentIndex === questions.length - 1;
 }
-
 function colorAnswers(isCorrect, answer) {
-    document.getElementById('trueButton').className = 'answer-button';
-    document.getElementById('falseButton').className = 'answer-button';
+    document.getElementById('trueButton').className = 'button answer-button';
+    document.getElementById('falseButton').className = 'button answer-button';
     const selectedButton = document.getElementById(`${answer.toLowerCase()}Button`);
-    selectedButton.className = `answer-button ${isCorrect ? 'correct' : 'incorrect'}`;
+    selectedButton.className = `button answer-button ${isCorrect ? 'correct' : 'incorrect'}`;
 }
-
 async function submitAnswer(answer) {
     try {
         const response = await fetchWithRetry('/api/answer', {
@@ -250,25 +238,19 @@ async function submitAnswer(answer) {
         alert(`Error submitting answer: ${error.message}`);
     }
 }
-
 function navigate(direction) {
-    currentIndex = Math.max(0, Math.min(questions.length - 1, currentIndex + direction));
+    currentIndex += direction;
     displayQuestion();
 }
-
-document.getElementById('currentQuestion').addEventListener('keyup', function(event) {
-    if (event.key === 'Enter') {
-        let newIndex = parseInt(this.value) - 1;
-        if (isNaN(newIndex) || newIndex < 0) {
-            newIndex = 0;
-        } else if (newIndex >= questions.length) {
-            newIndex = questions.length - 1;
-        }
-        currentIndex = newIndex;
+document.getElementById('currentQuestion').addEventListener('change', (event) => {
+    let value = parseInt(event.target.value, 10);
+    if (isNaN(value) || value < 1 || value > questions.length) {
+        event.target.value = currentIndex + 1;
+    } else {
+        currentIndex = value - 1;
         displayQuestion();
     }
 });
-
 checkBackendHealth();
 </script>
 </body>

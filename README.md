@@ -31,7 +31,9 @@ Question #2|True|
 Question #3|False|
 Question #4|True|
 ```
-You can use one of the example prompts (prompt templates) to generate the questions:
+You can use one of the example prompts (prompt templates) below to have AI generate the questions. 
+
+I highly recommend Claude-3.5-Sonnet on https://claude.ai/ or ChatGPT-4o-Classic on https://chatgpt.com/g/g-YyyyMT9XH-chatgpt-classic.
 
 #### English version:
 ```

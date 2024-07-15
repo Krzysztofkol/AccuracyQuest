@@ -22,6 +22,7 @@ AccuracyQuest/
 ### Dependencies:
 
 - flask `pip install flask -U`
+- flask_cors `pip install flask_cors -U`
 
 ### Modifying questions
 

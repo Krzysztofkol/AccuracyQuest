@@ -42,7 +42,7 @@
             font-size: 24px;
             margin-top: 20px;
             margin-bottom: 20px;
-            text-align: center;
+            text-align: left;
         }
         .buttons-container {
             display: flex;
@@ -84,18 +84,59 @@
             background-color: #e53e3e;
             color: white;
         }
+		.progress-bar {
+			width: 200px;
+			height: 20px;
+			background-color: #e0e0e0;
+			border-radius: 10px;
+			overflow: hidden;
+			position: relative;
+			display: inline-block;
+			margin-left: 10px;
+		}
+		.progress-fill {
+			height: 100%;
+			width: 0;
+			transition: width 0.5s ease-out, background-color 0.5s ease-out;
+		}
+		.progress-text {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: #000000;
+			font-weight: bold;
+			text-shadow:
+				-1px -1px 0 #ffffff,
+				1px -1px 0 #ffffff,
+				-1px 1px 0 #ffffff,
+				1px 1px 0 #ffffff;
+			z-index: 1;
+		}
     </style>
 </head>
 <body>
 <div id="app" class="container">
     <div class="header">
         <div>
-            <div class="accuracy">
-                Total Accuracy: <span id="totalAccuracy">0</span>%
-            </div>
-            <div class="accuracy">
-                20-Rolling Accuracy: <span id="rollingAccuracy">0</span>%
-            </div>
+			<div class="accuracy">
+				Total Accuracy:
+				<div class="progress-bar" id="totalAccuracyBar">
+					<div class="progress-fill" id="totalAccuracyFill"></div>
+					<div class="progress-text" id="totalAccuracyText">0%</div>
+				</div>
+			</div>
+			<div class="accuracy">
+				20-Rolling Accuracy:
+				<div class="progress-bar" id="rollingAccuracyBar">
+					<div class="progress-fill" id="rollingAccuracyFill"></div>
+					<div class="progress-text" id="rollingAccuracyText">0%</div>
+				</div>
+			</div>
         </div>
         <div class="question-info">
             Question <input type="text" id="currentQuestion" value="1">/<span id="totalQuestions">0</span>
@@ -175,9 +216,37 @@ function calculateAccuracies() {
     const last20Answered = answeredQuestions.filter(q => q.user_answer !== '').slice(-20);
     const last20Correct = last20Answered.filter(q => q.user_answer === q.correct_answer).length;
     const rollingAccuracy = (last20Answered.length === 0) ? 0 : (last20Correct / last20Answered.length) * 100;
-    
     document.getElementById('totalAccuracy').textContent = totalAccuracy.toFixed(0);
     document.getElementById('rollingAccuracy').textContent = rollingAccuracy.toFixed(0);
+}
+function calculateAccuracies() {
+    const answeredCount = answeredQuestions.filter(q => q.user_answer !== '').length;
+    totalCorrect = answeredQuestions.filter(q => q.user_answer === q.correct_answer).length;
+    const totalAccuracy = (answeredCount === 0) ? 0 : (totalCorrect / answeredCount) * 100;
+    const last20Answered = answeredQuestions.filter(q => q.user_answer !== '').slice(-20);
+    const last20Correct = last20Answered.filter(q => q.user_answer === q.correct_answer).length;
+    const rollingAccuracy = (last20Answered.length === 0) ? 0 : (last20Correct / last20Answered.length) * 100;
+    updateProgressBar('totalAccuracy', totalAccuracy);
+    updateProgressBar('rollingAccuracy', rollingAccuracy);
+}
+function updateProgressBar(id, percentage) {
+    const fillElement = document.getElementById(`${id}Fill`);
+    const textElement = document.getElementById(`${id}Text`);
+    const color = getColorForPercentage(percentage);
+    fillElement.style.width = `${percentage}%`;
+    fillElement.style.backgroundColor = color;
+    textElement.textContent = `${percentage.toFixed(0)}%`;
+}
+function getColorForPercentage(percentage) {
+    if (percentage <= 50) {
+        // Red from 0% to 50%
+        return 'rgb(255, 0, 0)';
+    } else {
+        // Transition from red to yellow to green from 50% to 100%
+        const green = Math.round(((percentage - 50) / 50) * 255);
+        const red = Math.round(((100 - percentage) / 50) * 255);
+        return `rgb(${red}, ${green}, 0)`;
+    }
 }
 function displayQuestion() {
     if (questions.length === 0) {

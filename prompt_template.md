@@ -1,3 +1,100 @@
+# Context:
+I'm developing "AccuracyQuest" web app for taking quizzes. I attach screenshot of how it looks.
+# Codebase:
+## Folder Contents:
+### Folder structure:
+```
+_AccuracyQuest-github-version/
+├── accuracy-quest-backend.py
+├── accuracy-quest-frontend.html
+├── questions.csv
+└── start-accuracy-quest.bat
+```
+## File Contents:
+### `accuracy-quest-backend.py`:
+```py
+# accuracy-quest-backend.py
+import os
+import csv
+from flask import Flask, jsonify, request, send_from_directory
+from flask_cors import CORS
+import logging
+app = Flask(__name__, static_folder='.')
+CORS(app)  # Enable CORS for all routes
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+CSV_FILE = 'questions.csv'
+def read_questions():
+    questions = []
+    try:
+        with open(CSV_FILE, 'r', encoding='utf-8') as file:
+            reader = csv.reader(file, delimiter='|')
+            next(reader)  # Skip header
+            for row in reader:
+                if len(row) >= 2:
+                    questions.append({
+                        'question': row[0],
+                        'correct_answer': row[1],
+                        'user_answer': row[2] if len(row) > 2 else ''
+                    })
+        logger.info(f"Successfully loaded {len(questions)} questions from {CSV_FILE}")
+    except Exception as e:
+        logger.error(f"Error reading CSV file: {e}")
+    return questions
+def write_questions(questions):
+    try:
+        with open(CSV_FILE, 'w', encoding='utf-8', newline='') as file:
+            writer = csv.writer(file, delimiter='|')
+            writer.writerow(['question', 'answer', 'user_answer'])
+            for q in questions:
+                writer.writerow([q['question'], q['correct_answer'], q['user_answer']])
+        logger.info(f"Successfully wrote {len(questions)} questions to {CSV_FILE}")
+    except Exception as e:
+        logger.error(f"Error writing to CSV file: {e}")
+@app.route('/')
+def index():
+    return send_from_directory('.', 'accuracy-quest-frontend.html')
+@app.route('/health')
+def health_check():
+    logger.info("Health check endpoint accessed")
+    return jsonify({"status": "healthy"}), 200
+@app.route('/api/questions')
+def get_questions():
+    logger.info("Fetching questions")
+    questions = read_questions()
+    if not questions:
+        logger.error("No questions available")
+        return jsonify({"error": "No questions available"}), 500
+    return jsonify(questions)
+@app.route('/api/answer', methods=['POST'])
+def submit_answer():
+    data = request.json
+    logger.info(f"Received answer submission: {data}")
+    if not data or 'index' not in data or 'answer' not in data:
+        logger.error("Invalid request data for answer submission")
+        return jsonify({'success': False, 'error': 'Invalid request data'}), 400
+    index, answer = data['index'], data['answer']
+    questions = read_questions()
+    if 0 <= index < len(questions):
+        correct = (answer == questions[index]['correct_answer'])
+        questions[index]['user_answer'] = answer
+        write_questions(questions)
+        logger.info(f"Answer submitted successfully for question {index}")
+        return jsonify({
+            'success': True,
+            'correct': correct,
+            'correct_answer': questions[index]['correct_answer']
+        })
+    logger.error(f"Invalid question index: {index}")
+    return jsonify({'success': False, 'error': 'Invalid question index'}), 400
+if __name__ == '__main__':
+    logger.info(f"Current working directory: {os.getcwd()}")
+    logger.info(f"CSV file path: {os.path.abspath(CSV_FILE)}")
+    app.run(host='0.0.0.0', port=8080, debug=True)
+```
+### `accuracy-quest-frontend.html`:
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -233,26 +330,15 @@ function updateProgressBar(id, percentage) {
     textElement.textContent = `${percentage.toFixed(0)}%`;
 }
 function getColorForPercentage(percentage) {
-    // Ensure percentage is between 0 and 100
-    percentage = Math.max(0, Math.min(100, percentage));
-    let r, g, b = 0;
     if (percentage <= 50) {
-        // Solid red from 0% to 50%
+        // Red from 0% to 50%
         return 'rgb(255, 0, 0)';
     } else {
-        // Map 50-100% to 0-100% for the gradient calculation
-        const adjustedPercentage = (percentage - 50) * 2;
-        if (adjustedPercentage < 50) {
-            // Red (255,0,0) to Yellow (255,255,0)
-            r = 255;
-            g = Math.round(5.1 * adjustedPercentage);
-        } else {
-            // Yellow (255,255,0) to Green (0,255,0)
-            r = Math.round(510 - 5.1 * adjustedPercentage);
-            g = 255;
-        }
+        // Transition from red to yellow to green from 50% to 100%
+        const green = Math.round(((percentage - 50) / 50) * 255);
+        const red = Math.round(((100 - percentage) / 50) * 255);
+        return `rgb(${red}, ${green}, 0)`;
     }
-    return `rgb(${r}, ${g}, ${b})`;
 }
 function displayQuestion() {
     if (questions.length === 0) {
@@ -330,3 +416,23 @@ checkBackendHealth();
 </script>
 </body>
 </html>
+```
+### `questions.csv`:
+```csv
+question|answer|user_answer
+Question #1 - Answer: False|False|False
+Question #2 - Answer: True|True|True
+Question #3 - Answer: False|False|True
+Question #4 - Answer: True|True|True
+```
+### `start-accuracy-quest.bat`:
+```bat
+@echo off
+cd /d "%~dp0"
+start python accuracy-quest-backend.py
+start http://localhost:8080
+```
+# Problem:
+I dislike the colors of the progress bar. I would like brighter colors from 50% to 100% like matplotlib's "RdYlGn" cmap.
+# Task:
+Make code changes. Lets 1. understand problem, 2. make detailed to-do list, 3. devise detailed plan to solve problem. Then lets take deep breath, carry out plan, and solve problem step by step.

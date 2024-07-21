@@ -203,7 +203,9 @@ async function fetchQuestions() {
 }
 function initializeAnsweredQuestions() {
     answeredQuestions = questions.map(q => ({ ...q, correct: q.user_answer === q.correct_answer }));
+    console.log('Initialized answeredQuestions:', answeredQuestions);
 }
+
 function calculateAccuracies() {
     const answeredCount = answeredQuestions.filter(q => q.user_answer !== '').length;
     totalCorrect = answeredQuestions.filter(q => q.user_answer === q.correct_answer).length;
@@ -211,19 +213,15 @@ function calculateAccuracies() {
     const last20Answered = answeredQuestions.filter(q => q.user_answer !== '').slice(-20);
     const last20Correct = last20Answered.filter(q => q.user_answer === q.correct_answer).length;
     const rollingAccuracy = (last20Answered.length === 0) ? 0 : (last20Correct / last20Answered.length) * 100;
-    document.getElementById('totalAccuracy').textContent = totalAccuracy.toFixed(0);
-    document.getElementById('rollingAccuracy').textContent = rollingAccuracy.toFixed(0);
-}
-function calculateAccuracies() {
-    const answeredCount = answeredQuestions.filter(q => q.user_answer !== '').length;
-    totalCorrect = answeredQuestions.filter(q => q.user_answer === q.correct_answer).length;
-    const totalAccuracy = (answeredCount === 0) ? 0 : (totalCorrect / answeredCount) * 100;
-    const last20Answered = answeredQuestions.filter(q => q.user_answer !== '').slice(-20);
-    const last20Correct = last20Answered.filter(q => q.user_answer === q.correct_answer).length;
-    const rollingAccuracy = (last20Answered.length === 0) ? 0 : (last20Correct / last20Answered.length) * 100;
+
+    console.log(`Answered Count: ${answeredCount}, Total Correct: ${totalCorrect}`);
+    console.log(`Total Accuracy: ${totalAccuracy}%`);
+    console.log(`Rolling Accuracy: ${rollingAccuracy}%`);
+
     updateProgressBar('totalAccuracy', totalAccuracy);
     updateProgressBar('rollingAccuracy', rollingAccuracy);
 }
+
 function updateProgressBar(id, percentage) {
     const fillElement = document.getElementById(`${id}Fill`);
     const textElement = document.getElementById(`${id}Text`);

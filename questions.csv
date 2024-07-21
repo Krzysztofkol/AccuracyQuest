@@ -1,5 +1,305 @@
 question|answer|user_answer
-Question #1 - Answer: False|False|False
-Question #2 - Answer: True|True|True
-Question #3 - Answer: False|False|True
-Question #4 - Answer: True|True|True
+MLP z więcej niż jedną warstwą ukrytą jest nazywany perceptronem.|False|False
+(An Introduction to Statistical Learning). Decision trees can naturally handle non-linear relationships between features and the target variable.|True|True
+MLPs can only approximate linear functions.|False|
+Dropout a technique used to increase the complexity of MLP.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees are less interpretable than random forests.|False|
+MLP są odporne na overfitting bez żadnych dodatkowych technik regularizacji.|False|
+The choice of activation function MLP does not affect the training process.|False|
+Dropout powoduje, że w czasie testowania neurony są losowo wyłączane.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). The bootstrap sampling method in random forests leads to each tree seeing a different portion of the data.|True|
+(The Elements of Statistical Learning). W SVM z liniowym jądrem, wektor wag w przestrzeni cech jest zawsze kombinacją liniową wszystkich punktów treningowych, nie tylko wektorów nośnych.|False|
+Weight decay another term for L2 regularization MLPs.|True|
+(An Introduction to Statistical Learning). W SVM do regresji (SVR), punkty treningowe leżące wewnątrz ε-rury zawsze mają dodatnie mnożniki Lagrange'a, ale mniejsze niż C.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem wielomianowym, zwiększanie stopnia wielomianu zawsze prowadzi do zmniejszenia błędu treningowego, ale nie zawsze do zmniejszenia błędu testowego.|True|
+Warstwa wyjściowa MLP zawsze używa funkcji aktywacji ReLU.|False|
+(The Elements of Statistical Learning). W SVM z jądrem wielomianowym, zwiększanie stopnia wielomianu zawsze prowadzi do zwiększenia efektywnej liczby wymiarów w przestrzeni cech.|True|
+(An Introduction to Statistical Learning). Overfitting is a common issue with deep decision trees.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM do regresji (SVR), szerokość ε-rury jest zawsze odwrotnie proporcjonalna do parametru C, niezależnie od charakterystyki danych.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests can handle imbalanced datasets by adjusting the weight of classes during training.|True|
+Wszystkie neurony w MLP muszą używać tej samej funkcji aktywacji.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem liniowym, wektor normalny hiperpłaszczyzny decyzyjnej jest zawsze kombinacją liniową tylko tych wektorów nośnych, które leżą dokładnie na marginesie.|False|
+Dropout może być stosowany tylko w warstwach ukrytych MLP.|False|
+L2 regularization w MLP polega na dodaniu kwadratu wag do funkcji strat.|True|
+MLP can be considered as a universal approximator.|True|
+(An Introduction to Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do nieskończoności, a C jest stałe, model zawsze staje się równoważny klasyfikatorowi najbliższego sąsiada z odległością Manhattan.|False|
+Dropout jest techniką regularizacji stosowaną w MLP, która polega na losowym wyłączaniu neuronów w czasie treningu.|True|
+(The Elements of Statistical Learning). Metoda SMO (Sequential Minimal Optimization) w SVM zawsze wybiera do optymalizacji parę mnożników Lagrange'a, które najbardziej naruszają warunki KKT.|False|
+MLP może być używany do regresji i klasyfikacji.|True|
+(An Introduction to Statistical Learning). Decision trees naturally handle missing data without the need for imputation.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). One-class SVM może być skutecznie stosowany do detekcji anomalii, ale wymaga zbioru treningowego zawierającego zarówno przykłady normalne, jak i anomalie.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees are sensitive to small variations in the training data, which can result in different splits.|True|
+(An Introduction to Statistical Learning). In random forests, the number of features to consider for splitting at each node is a hyperparameter that can be tuned.|True|
+Algorytm backpropagation używa łańcuchowej reguły różniczkowania do aktualizacji wag w MLP.|True|
+(The Elements of Statistical Learning). W SVM z miękkim marginesem, punkty treningowe z αi = C są zawsze błędnie sklasyfikowane przez model.|False|
+MLP cannot be trained using unsupervised learning techniques.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z miękkim marginesem, punkty treningowe z 0 < αi < C zawsze leżą dokładnie na marginesie decyzyjnym i mają zerowe zmienne luzu (slack variables).|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). In random forests, the final prediction is obtained by taking the average of predictions from all trees for regression tasks.|True|
+(An Introduction to Statistical Learning). Random forests do not require any tuning of hyperparameters to perform well.|False|
+(An Introduction to Statistical Learning). Warunek KKT (Karush-Kuhn-Tucker) mówiący, że α_i * (y_i(w^T x_i + b) - 1 + ξ_i) = 0, implikuje, że wszystkie wektory nośne leżą dokładnie na marginesie w przypadku miękkiego SVM.|False|
+(An Introduction to Statistical Learning). W SVM z jądrem wielomianowym stopnia d, liczba cech w przestrzeni transformowanej jest zawsze równa sumie liczby kombinacji bez powtórzeń od 1 do d elementów z p elementów, gdzie p jest liczbą cech w oryginalnej przestrzeni.|True|
+(An Introduction to Statistical Learning). The splitting criterion in a decision tree can be based on either the Gini index or entropy for classification tasks.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem RBF, gdy gamma dąży do nieskończoności, a C jest stałe, model zawsze staje się przeuczony, niezależnie od rozkładu danych.|False|
+(The Elements of Statistical Learning). W SVM z jądrem wielomianowym, zwiększanie stopnia wielomianu zawsze prowadzi do zmniejszenia błędu generalizacji.|False|
+(An Introduction to Statistical Learning). Pruning a decision tree can help to prevent overfitting by removing nodes that provide little predictive power.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM do regresji (SVR), szerokość ε-rury jest zawsze odwrotnie proporcjonalna do pierwiastka z parametru C, niezależnie od charakterystyki danych.|False|
+The output of the softmax function MLP sums to 1.|True|
+(The Elements of Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do nieskończoności, a C dąży do zera, model zawsze staje się równoważny klasyfikatorowi najbliższego sąsiada z głosowaniem ważonym odległością.|False|
+An epoch MLP training consists of one forward and backward pass of all the training samples.|True|
+A small learning rate can slow down the training of MLP but helps avoiding overshooting the minimum.|True|
+(An Introduction to Statistical Learning). W SVM z jądrem wielomianowym stopnia d, liczba cech w przestrzeni transformowanej jest zawsze równa liczbie permutacji z powtórzeniami d elementów z p elementów, gdzie p jest liczbą cech w oryginalnej przestrzeni.|False|
+MLP jest narażony na problem eksplodujących gradientów.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests require that all decision trees have the same maximum depth.|False|
+In MLP, each neuron applies a linear transformation followed by a nonlinear activation function to its input.|True|
+In MLP, vanishing gradient problem occurs more frequently with sigmoid and tanh activation functions compared to ReLU.|True|
+Warstwy ukryte w MLP mogą używać funkcji aktywacji sigmoidalnej.|True|
+(An Introduction to Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do nieskończoności, a C dąży do zera, model zawsze staje się równoważny klasyfikatorowi najbliższego sąsiada z głosowaniem ważonym odwrotnością odległości.|False|
+MLP cannot be used for multiclass classification problems.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). Random forests use feature bagging to reduce the correlation between trees.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests require a separate validation set to tune hyperparameters.|False|
+(An Introduction to Statistical Learning). In decision trees, the split that minimizes the chosen impurity measure is selected.|True|
+Gradient clipping can be used to mitigate the exploding gradient problem MLPs.|True|
+(An Introduction to Statistical Learning). Random forests can only be used for classification tasks, not for regression.|False|
+(An Introduction to Statistical Learning). W SVM z miękkim marginesem, punkty treningowe z αi = 0 zawsze leżą po właściwej stronie marginesu i są poprawnie sklasyfikowane.|True|
+(An Introduction to Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do zera, model staje się równoważny klasyfikatorowi stałemu, który zawsze przewiduje klasę większościową.|False|
+In MLP, the sigmoid activation function can lead to gradient saturation problems.|True|
+In MLP, batch normalization applied after the activation function.|False|
+(An Introduction to Statistical Learning). Decision trees require feature scaling to perform well.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). Decision trees require more computational resources to train compared to random forests.|False|
+Normalizacja wejść może przyspieszyć konwergencję w MLP.|True|
+(An Introduction to Statistical Learning). The maximum depth of a decision tree is a hyperparameter that can significantly impact model performance.|True|
+Regularization methods like dropout and L2 regularization are used to improve the generalization of MLP.|True|
+(An Introduction to Statistical Learning). W SVM do regresji (SVR), wszystkie punkty treningowe leżące wewnątrz ε-rury mają zerowe mnożniki Lagrange'a.|True|
+MLP cannot solve linearly inseparable problems.|False|
+Learning rate w algorytmie SGD powinien być zawsze stały podczas całego procesu trenowania MLP.|False|
+Dropout increases the computational cost during training of MLP.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). The number of features considered for splitting in a random forest is usually greater than the total number of features in the dataset.|False|
+(The Elements of Statistical Learning). Metoda ν-SVM gwarantuje, że liczba wektorów nośnych jest zawsze równa ν razy liczba przykładów treningowych, niezależnie od rozkładu danych.|False|
+(An Introduction to Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do zera, a C dąży do zera, model zawsze staje się równoważny klasyfikatorowi stałemu, który przypisuje wszystkim punktom średnią ważoną klas treningowych.|False|
+Rozkład wag początkowych nie ma wpływu na proces uczenia MLP.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem liniowym, zwiększanie parametru C zawsze prowadzi do zmniejszenia marginesu decyzyjnego.|False|
+(The Elements of Statistical Learning). Metoda ν-SVM gwarantuje, że parametr ν jest dokładną frakcją punktów treningowych, które staną się wektorami nośnymi, niezależnie od rozkładu danych.|False|
+W MLP funkcje aktywacji w różnych warstwach mogą być różne.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). Random forests are highly sensitive to the choice of hyperparameters.|False|
+(The Elements of Statistical Learning). Metoda SMO (Sequential Minimal Optimization) w SVM gwarantuje, że w każdej iteracji suma mnożników Lagrange'a pozostaje stała.|True|
+(An Introduction to Statistical Learning). Pruning a decision tree involves removing nodes that lead to a decrease in the cross-validation error.|True|
+Regularization techniques like L1 and L2 are used MLP to reduce overfitting.|True|
+(An Introduction to Statistical Learning). Decision trees are robust to outliers in the input data.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees split nodes to minimize the total variance in the target variable for regression tasks.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees provide confidence intervals for their predictions.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests improve the stability of predictions by combining multiple trees grown on random subsets of data.|True|
+(The Elements of Statistical Learning). Metoda SMO (Sequential Minimal Optimization) w SVM gwarantuje, że w każdej iteracji dokładnie dwa mnożniki Lagrange'a zmieniają swoje wartości.|True|
+(The Elements of Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do zera, a C jest stałe, model zawsze staje się równoważny klasyfikatorowi liniowemu z regularyzacją L2, którego siła regularyzacji zależy od C.|True|
+(An Introduction to Statistical Learning). The Gini impurity is used to measure the purity of a node in a regression tree.|False|
+(An Introduction to Statistical Learning). Random forests can provide an estimate of the generalization error without needing a separate validation set.|True|
+(An Introduction to Statistical Learning). The out-of-bag error estimate in random forests is an unbiased estimate of the test error.|True|
+(An Introduction to Statistical Learning). Random forests are susceptible to overfitting when too many trees are used.|False|
+(An Introduction to Statistical Learning). W SVM z jądrem wielomianowym stopnia d, liczba cech w przestrzeni transformowanej jest zawsze równa d do potęgi liczby cech w oryginalnej przestrzeni.|False|
+(An Introduction to Statistical Learning). W SVM do regresji (SVR), suma wszystkich dodatnich mnożników Lagrange'a jest zawsze równa sumie wszystkich ujemnych mnożników Lagrange'a.|True|
+(An Introduction to Statistical Learning). Bootstrap samples used in random forests contain about 63.2% of the original training data.|True|
+(An Introduction to Statistical Learning). W SVM z liniowym jądrem, wektor wag w przestrzeni cech jest zawsze ortogonalny do wektorów nośnych leżących dokładnie na marginesie.|False|
+MLP może mieć dowolną liczbę warstw wyjściowych.|False|
+(An Introduction to Statistical Learning). W SVM z jądrem wielomianowym stopnia d, liczba cech w przestrzeni transformowanej jest zawsze równa sumie liczby kombinacji bez powtórzeń cech oryginalnych od 1 do d.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests can automatically detect and handle interactions between features.|True|
+(The Elements of Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do nieskończoności, a C jest stałe, model zawsze staje się równoważny klasyfikatorowi najbliższego sąsiada z odległością cosinusową.|False|
+(An Introduction to Statistical Learning). The process of splitting nodes in a decision tree is always deterministic and does not involve any randomness.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z miękkim marginesem, punkty treningowe z 0 < αi < C zawsze leżą dokładnie na marginesie decyzyjnym.|True|
+In MLP, the weights are adjusted to minimize the loss function.|True|
+(The Elements of Statistical Learning). Metoda ν-SVM gwarantuje, że parametr ν jest górnym ograniczeniem frakcji błędów treningowych i dolnym ograniczeniem frakcji wektorów nośnych tylko dla pewnych wartości ν z przedziału (0,1).|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests average the predictions of multiple decision trees to reduce the risk of overfitting.|True|
+question|answer|user_answer
+(An Introduction to Statistical Learning). In decision trees, each internal node corresponds to a decision based on a single feature.|True|
+Batch normalization może przyspieszyć trening MLP.|True|
+MLPs are typically trained using batch gradient descent.|False|
+(An Introduction to Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do zera, model staje się równoważny regresji logistycznej z regularyzacją L2.|False|
+Funkcja aktywacji softmax jest używana w MLP do konwersji wyjść do postaci prawdopodobieństw.|True|
+(An Introduction to Statistical Learning). W SVM z jądrem wielomianowym stopnia d, liczba cech w przestrzeni transformowanej jest zawsze równa liczbie kombinacji z powtórzeniami d+p elementów, gdzie p jest liczbą cech w oryginalnej przestrzeni.|True|
+Algorytm Adam jest często używany do trenowania MLP ze względu na swoje zalety w optymalizacji.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z miękkim marginesem, punkty treningowe z αi = C zawsze leżą po niewłaściwej stronie marginesu lub wewnątrz niego.|True|
+(An Introduction to Statistical Learning). A random forest with a single tree is equivalent to a decision tree.|True|
+An MLP with no hidden layers equivalent to a linear regression model.|True|
+(The Elements of Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do zera, a C jest stałe, model zawsze staje się równoważny klasyfikatorowi stałemu, który przypisuje wszystkim punktom klasę większościową.|True|
+MLP can handle both linear and non-linear separable data.|True|
+Wielowarstwowy perceptron (MLP) jest modelem liniowym.|False|
+(An Introduction to Statistical Learning). Ensemble methods like random forests typically suffer from high bias.|False|
+question|answer|user_answer
+(An Introduction to Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do zera, a C dąży do nieskończoności, model zawsze staje się równoważny klasyfikatorowi liniowemu bez regularyzacji.|True|
+(An Introduction to Statistical Learning). In random forests, trees are grown by selecting a random subset of the training data with replacement.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W przypadku SVM z miękkim marginesem, wszystkie punkty treningowe leżące wewnątrz marginesu muszą mieć niezerowe zmienne luzu (slack variables).|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem liniowym, wektor normalny hiperpłaszczyzny decyzyjnej jest zawsze kombinacją liniową tylko tych wektorów nośnych, które leżą dokładnie na marginesie lub wewnątrz niego.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z miękkim marginesem, suma mnożników Lagrange'a dla punktów treningowych z klasy pozytywnej jest zawsze równa sumie mnożników Lagrange'a dla punktów z klasy negatywnej.|True|
+Funkcja aktywacji tanh w MLP skaluje wyjście neuronu do zakresu [0, 1].|False|
+(The Elements of Statistical Learning). Metoda SMO (Sequential Minimal Optimization) w SVM gwarantuje, że w każdej iteracji co najmniej jeden z dwóch wybranych mnożników Lagrange'a zmieni swoją wartość.|True|
+MLPs cannot be used for tasks involving image data.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees can model interactions between features naturally.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). The primary goal of pruning in decision trees is to reduce bias.|False|
+Funkcja aktywacji ReLU może prowadzić do problemu martwych neuronów w MLP.|True|
+(An Introduction to Statistical Learning). Metoda SMO (Sequential Minimal Optimization) stosowana w SVM zawsze zbiegnie się do globalnego minimum funkcji celu, niezależnie od wyboru początkowych mnożników Lagrange'a.|False|
+(An Introduction to Statistical Learning). Random forests can handle large datasets efficiently by parallelizing the construction of trees.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests always require an equal number of features for each split.|False|
+W MLP warstwa wejściowa nie przetwarza danych wejściowych, a jedynie przekazuje je do warstwy ukrytej.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem RBF, gdy gamma dąży do nieskończoności, a C jest stałe, model zawsze staje się niedouczony, niezależnie od rozkładu danych.|False|
+MLP mogą używać funkcji aktywacji softmax w warstwie wyjściowej dla problemów klasyfikacyjnych.|True|
+(An Introduction to Statistical Learning). Decision trees can only handle binary classification problems.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). In random forests, feature importance is derived from the average decrease in node impurity over all trees.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z miękkim marginesem, punkty treningowe z αi = 0 zawsze leżą po właściwej stronie marginesu i mają zerowe zmienne luzu (slack variables).|True|
+Funkcja strat dla regresji w MLP to zazwyczaj cross-entropy loss.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees can be visualized easily, making them interpretable compared to many other machine learning models.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). A decision tree with many deep splits tends to have high bias and low variance.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees cannot handle multi-class classification problems.|False|
+MLP zawsze osiąga optymalne wyniki bez żadnej techniki regularizacji.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM do regresji (SVR), wszystkie punkty treningowe leżące dokładnie na granicy ε-rury mają mnożniki Lagrange'a równe dokładnie połowie wartości parametru C.|False|
+Funkcja aktywacji w warstwie wyjściowej dla problemów regresyjnych w MLP to zazwyczaj softmax.|False|
+W MLP funkcja aktywacji softplus jest nieliniowa.|True|
+(An Introduction to Statistical Learning). W SVM z miękkim marginesem, zwiększenie parametru C zawsze prowadzi do zmniejszenia liczby wektorów nośnych.|False|
+(An Introduction to Statistical Learning). Metoda rdzeniowa w SVM (kernel trick) może być stosowana do dowolnej funkcji jądrowej, pod warunkiem, że spełnia ona twierdzenie Mercera.|True|
+The softmax activation function used MLPs for binary classification problems.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees tend to have high bias and low variance.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). The depth of trees in a random forest should be limited to avoid overfitting.|False|
+"(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM do klasyfikacji wieloklasowej metodą ""jeden-przeciwko-wszystkim"", liczba trenowanych klasyfikatorów jest zawsze równa liczbie klas minus jeden."|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests make use of ensemble averaging, while boosting methods combine weak learners sequentially.|True|
+MLP jest typem sieci neuronowej jednowarstwowej.|False|
+(An Introduction to Statistical Learning). A decision tree's leaf nodes represent the final output of the model.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). The main advantage of random forests over decision trees is their ability to handle overfitting effectively.|True|
+The input to an MLP can be of variable length.|False|
+"(An Introduction to Statistical Learning). W SVM do klasyfikacji wieloklasowej metodą ""jeden-przeciwko-jednemu"", każdy punkt treningowy jest używany jako przykład pozytywny dokładnie w tylu klasyfikatorach binarnych, ile jest pozostałych klas."|True|
+(The Elements of Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do zera, model staje się równoważny klasyfikatorowi liniowemu z regularyzacją L2.|True|
+Algorytm SGD (Stochastic Gradient Descent) jest często używany do optymalizacji MLP.|True|
+(An Introduction to Statistical Learning). W SVM do regresji (SVR), wszystkie punkty treningowe leżące poza ε-rurą mają mnożniki Lagrange'a równe C.|True|
+(An Introduction to Statistical Learning). W SVM do regresji (SVR), punkty treningowe leżące na granicy ε-rury zawsze mają niezerowe mnożniki Lagrange'a.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests are prone to underfitting if the trees are not grown deep enough.|False|
+(The Elements of Statistical Learning). W SVM z liniowym jądrem, wektor wag w przestrzeni cech jest zawsze ortogonalny do różnicy dowolnych dwóch wektorów nośnych z przeciwnych klas.|True|
+Waga neuronów w MLP są aktualizowane na podstawie gradientu funkcji strat.|True|
+Weight initialization MLPs can impact the speed and success of the training process.|True|
+(The Elements of Statistical Learning). Metoda ν-SVM gwarantuje, że parametr ν jest górnym ograniczeniem frakcji błędów treningowych i dolnym ograniczeniem frakcji wektorów nośnych.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). The performance of a random forest decreases if the individual trees are highly correlated.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z miękkim marginesem, suma mnożników Lagrange'a dla wszystkich punktów treningowych jest zawsze równa parametrowi C pomnożonemu przez liczbę klas.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Pruning a decision tree always results in better performance on unseen data.|False|
+Deep learning jest terminem używanym wyłącznie do opisania MLP.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem wielomianowym, zwiększanie stopnia wielomianu zawsze prowadzi do zmniejszenia błędu generalizacji, niezależnie od wartości parametru C.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). The depth of the trees in a random forest is typically the same for all trees.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees are susceptible to becoming overly complex if not pruned appropriately.|True|
+(An Introduction to Statistical Learning). In random forests, the trees are fully grown without pruning to reduce variance.|True|
+W MLP funkcja aktywacji tanh jest zawsze lepsza od ReLU.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees and random forests are both examples of ensemble learning methods.|False|
+(An Introduction to Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do nieskończoności, a C jest stałe, model zawsze staje się równoważny klasyfikatorowi najbliższego sąsiada.|True|
+Early stopping a technique used to prevent overfitting MLP.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z miękkim marginesem, suma wszystkich mnożników Lagrange'a jest zawsze równa parametrowi C pomnożonemu przez liczbę klas.|False|
+"(An Introduction to Statistical Learning). W SVM do klasyfikacji wieloklasowej metodą ""jeden-przeciwko-jednemu"", każdy punkt treningowy jest używany jako przykład negatywny dokładnie w tylu klasyfikatorach binarnych, ile jest klas minus dwa."|True|
+Backpropagation jest metodą opartą na propagacji sygnału w przód.|False|
+In MLP, the derivative of the activation function used backpropagation.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Overfitting is less of an issue with random forests compared to single decision trees.|True|
+(The Elements of Statistical Learning). Metoda ν-SVM gwarantuje, że parametr ν jest dolnym ograniczeniem frakcji błędów treningowych i górnym ograniczeniem frakcji wektorów nośnych.|False|
+(The Elements of Statistical Learning). Metoda SMO (Sequential Minimal Optimization) w SVM gwarantuje, że w każdej iteracji co najmniej jeden mnożnik Lagrange'a zmieni swoją wartość.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees use a hierarchical approach to make predictions based on the input features.|True|
+(An Introduction to Statistical Learning). Decision trees always produce unique models regardless of the dataset.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem liniowym, wektor normalny hiperpłaszczyzny decyzyjnej jest zawsze kombinacją liniową wszystkich punktów treningowych, nie tylko wektorów nośnych.|False|
+Każdy neuron w warstwie ukrytej MLP jest połączony z każdym neuronem w następnej warstwie.|True|
+W MLP każdy neuron w warstwie ukrytej ma ten sam zestaw wag.|False|
+(The Elements of Statistical Learning). Metoda SMO (Sequential Minimal Optimization) w SVM gwarantuje, że w każdej iteracji suma iloczynów mnożników Lagrange'a i etykiet klas pozostaje stała.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). In random forests, each tree is built using a unique subset of the features.|True|
+ReLU activation function can cause dead neurons MLP.|True|
+(An Introduction to Statistical Learning). Feature importance in a random forest is typically calculated using the mean decrease in impurity.|True|
+"(An Introduction to Statistical Learning). W SVM do klasyfikacji wieloklasowej metodą ""jeden-przeciwko-jednemu"", liczba trenowanych klasyfikatorów jest zawsze równa sumie liczb naturalnych od 1 do (n-1), gdzie n to liczba klas."|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem wielomianowym, zwiększanie stopnia wielomianu zawsze prowadzi do zwiększenia liczby wektorów nośnych, ale nie zawsze do poprawy separacji klas w oryginalnej przestrzeni cech.|True|
+(The Elements of Statistical Learning). W SVM z jądrem wielomianowym, zwiększanie stopnia wielomianu zawsze prowadzi do zmniejszenia błędu treningowego, niezależnie od wartości parametru C.|False|
+Batch normalization helps reducing internal covariate shift MLPs.|True|
+In MLP, the learning rate must always be small to ensure convergence.|False|
+The ReLU activation function MLP can output negative values.|False|
+Backpropagation updates the weights MLP by using the chain rule for differentiation.|True|
+question|answer|user_answer
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). Random forests can perform well with little hyperparameter tuning.|True|
+Backpropagation jest algorytmem używanym do trenowania MLP poprzez propagowanie błędu od warstwy wyjściowej do wejściowej.|True|
+(An Introduction to Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do zera, model staje się równoważny klasyfikatorowi liniowemu bez regularyzacji.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). The accuracy of a random forest model is highly sensitive to the number of trees used in the ensemble.|False|
+(An Introduction to Statistical Learning). W SVM z jądrem wielomianowym stopnia d, liczba cech w przestrzeni transformowanej jest zawsze równa d do potęgi liczby cech w oryginalnej przestrzeni plus jeden.|False|
+(The Elements of Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do nieskończoności, a C dąży do nieskończoności, model zawsze staje się równoważny klasyfikatorowi najbliższego sąsiada z odległością euklidesową.|True|
+Dropout helps to prevent overfitting by increasing the variance of the model.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem liniowym, zwiększanie parametru C zawsze prowadzi do zmniejszenia normy wektora wag w przestrzeni cech.|False|
+Momentum jest techniką stosowaną w optymalizacji MLP, która przyspiesza konwergencję.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests can produce out-of-bag estimates, which are used to evaluate model performance without a separate test set.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees can be used to estimate the importance of input features.|True|
+(An Introduction to Statistical Learning). W SVM z jądrem wielomianowym, zwiększanie stopnia wielomianu zawsze prowadzi do zwiększenia liczby wektorów nośnych, niezależnie od wartości parametru C.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z liniowym jądrem, wektor normalny hiperpłaszczyzny decyzyjnej jest zawsze ortogonalny do wszystkich wektorów nośnych.|False|
+MLP z jedną warstwą ukrytą może modelować dowolną funkcję ciągłą przy odpowiednio dużej liczbie neuronów.|True|
+The bias term MLP not updated during backpropagation.|False|
+The activation function tanh MLP scales outputs to the range [-1, 1].|True|
+(The Elements of Statistical Learning). W SVM z jądrem liniowym, wektor wag w przestrzeni cech jest zawsze kombinacją liniową wektorów nośnych, nawet gdy używamy regularyzacji L1.|False|
+MLP a type of recurrent neural network.|False|
+"(An Introduction to Statistical Learning). W SVM do klasyfikacji wieloklasowej metodą ""jeden-przeciwko-wszystkim"", każdy punkt treningowy jest używany jako przykład pozytywny dokładnie raz i jako przykład negatywny we wszystkich pozostałych klasyfikatorach binarnych."|True|
+(The Elements of Statistical Learning). W SVM z liniowym jądrem, wektor wag w przestrzeni cech jest zawsze prostopadły do hiperpłaszczyzny rozdzielającej klasy w punkcie najbliższym początku układu współrzędnych.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM do regresji (SVR), wszystkie punkty treningowe leżące poza ε-rurą mają zmienne luzu (slack variables) większe od zera, ale mniejsze od ε.|False|
+Normalizacja wejść nie jest konieczna przed trenowaniem MLP.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests can handle thousands of input features without feature selection.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees are typically faster to train than random forests.|True|
+(An Introduction to Statistical Learning). W SVM do regresji (SVR), punkty treningowe leżące dokładnie na granicy ε-rury zawsze mają mnożniki Lagrange'a równe połowie wartości parametru C.|False|
+(An Introduction to Statistical Learning). W SVM z jądrem wielomianowym, zwiększanie stopnia wielomianu zawsze prowadzi do zwiększenia efektywnej liczby wymiarów w przestrzeni cech, ale nie zawsze do poprawy separacji klas.|True|
+(An Introduction to Statistical Learning). In decision trees, the entropy criterion is used only for regression tasks.|False|
+The cross-entropy loss function used for classification tasks MLP.|True|
+(An Introduction to Statistical Learning). Random forests improve model accuracy by reducing the bias of individual decision trees.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). In random forests, the correlation between trees is reduced by using random subsets of features for each tree.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z miękkim marginesem, suma wszystkich zmiennych luzu (slack variables) jest zawsze równa parametrowi C.|False|
+(An Introduction to Statistical Learning). Random forests typically perform feature selection automatically.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees often require more data preprocessing compared to random forests.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). In random forests, each tree is built on a bootstrap sample of the data and a random subset of features.|True|
+(The Elements of Statistical Learning). W SVM z liniowym jądrem, wektor wag w przestrzeni cech jest zawsze prostopadły do hiperpłaszczyzny rozdzielającej klasy w punkcie środkowym między najbliższymi punktami przeciwnych klas.|False|
+MLPs are particularly well-suited for time series prediction without any modification.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM do regresji (SVR), wszystkie punkty treningowe leżące dokładnie na granicy ε-rury mają niezerowe mnożniki Lagrange'a, ale mniejsze niż C.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem liniowym, zwiększanie parametru C zawsze prowadzi do zwiększenia liczby wektorów nośnych.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem RBF, zwiększenie parametru gamma zawsze prowadzi do zwiększenia złożoności modelu, niezależnie od wartości parametru C.|False|
+A common issue with MLPs the vanishing gradient problem, particularly with tanh and sigmoid activation functions.|True|
+(An Introduction to Statistical Learning). Random forests use decision trees that are unpruned and of maximum depth.|True|
+(An Introduction to Statistical Learning). A single decision tree model generally has higher variance compared to a random forest model.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem wielomianowym, zwiększanie stopnia wielomianu zawsze prowadzi do zwiększenia liczby wektorów nośnych.|False|
+Activation functions MLP are applied element-wise to the output of each layer.|True|
+Dropout can be applied during the inference phase MLP.|False|
+L1 regularization MLP promotes sparsity of the weight matrix.|True|
+Liczba neuronów w warstwie ukrytej MLP powinna być zawsze większa niż liczba neuronów w warstwie wejściowej.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). Decision trees are always more accurate than linear models for any given dataset.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests aggregate the predictions of multiple decision trees to improve accuracy and robustness.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). Random forests can be parallelized to speed up training.|True|
+MLP może efektywnie rozwiązywać problemy nieliniowe dzięki wielowarstwowej strukturze.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests can effectively handle missing values in the input data.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). Decision trees can handle both categorical and numerical data without any transformation.|True|
+(An Introduction to Statistical Learning). W SVM z jądrem wielomianowym, liczba wymiarów przestrzeni cech jest zawsze równa liczbie kombinacji z powtórzeniami cech oryginalnych do stopnia wielomianu.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests utilize bagging, which stands for bootstrap aggregation.|True|
+MLP jest specjalnym przypadkiem sieci neuronowej bez wstecznych połączeń.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees cannot be used for regression tasks.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Decision trees are invariant to monotonic transformations of the input features.|False|
+The output layer of MLP for regression problems typically uses no activation function or a linear activation function.|True|
+(The Elements of Statistical Learning). W SVM z liniowym jądrem, wektor wag w przestrzeni cech jest zawsze kombinacją liniową tylko tych wektorów nośnych, które mają niezerowe zmienne luzu (slack variables).|False|
+MLP can use dropout regularization the input layer.|True|
+Gradient vanishing problem jest bardziej powszechny w MLP z funkcją aktywacji ReLU niż w przypadku funkcji sigmoidalnej.|False|
+MLP może używać funkcji aktywacji softplus w warstwach ukrytych.|True|
+(An Introduction to Statistical Learning). Increasing the number of trees in a random forest beyond a certain point continues to improve performance significantly.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). In decision trees, the best split is determined by evaluating all possible splits for all features.|True|
+Overfitting not a concern MLP when using a large number of neurons hidden layers.|False|
+Weight sharing a common practice MLPs.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests are robust to noisy data and outliers.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Random forests use bagging to reduce the variance of the model predictions.|True|
+(The Elements of Statistical Learning). Metoda ν-SVM gwarantuje, że parametr ν jest dokładną frakcją punktów treningowych, które staną się wektorami nośnymi lub będą błędnie sklasyfikowane, niezależnie od rozkładu danych.|False|
+Learning rate decay a technique used to gradually decrease the learning rate during training of MLP.|True|
+(An Introduction to Statistical Learning). Random forests provide a measure of variable importance.|True|
+(An Introduction to Statistical Learning). In a decision tree, pruning is used to increase the complexity of the tree to avoid overfitting.|False|
+W MLP, jeżeli funkcja aktywacji ReLU zostanie użyta we wszystkich warstwach, model będzie bardziej narażony na problem eksplodujących gradientów.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z miękkim marginesem, suma wszystkich zmiennych luzu (slack variables) jest zawsze mniejsza lub równa parametrowi C pomnożonemu przez liczbę przykładów treningowych.|True|
+(The Elements of Statistical Learning). Jądro wielomianowe w SVM gwarantuje, że dane będą liniowo separowalne w przestrzeni cech, niezależnie od stopnia wielomianu.|False|
+MLPs are highly sensitive to the choice of hyperparameters.|True|
+In MLP, the hidden layers transform the input data into a higher-dimensional space.|True|
+(An Introduction to Statistical Learning). W SVM z jądrem wielomianowym, zwiększanie stopnia wielomianu zawsze prowadzi do zmniejszenia marginesu funkcjonalnego w przestrzeni cech, niezależnie od wartości parametru C.|False|
+(The Elements of Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do nieskończoności, a C dąży do nieskończoności, model zawsze staje się równoważny klasyfikatorowi najbliższego sąsiada z odległością Mahalanobisa.|False|
+(An Introduction to Statistical Learning). Random forests use bootstrap aggregating (bagging) to reduce variance and improve model accuracy.|True|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). The Gini index and entropy are two commonly used criteria for splitting nodes in regression trees.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). Pruning decision trees is done by removing splits that increase the model's performance on the training set.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). The trees in a random forest are independent of each other.|True|
+(The Elements of Statistical Learning). W SVM z jądrem gaussowskim, gdy gamma dąży do nieskończoności, klasyfikator SVM zawsze staje się równoważny klasyfikatorowi k-najbliższych sąsiadów z k=1.|False|
+MLP requires labeled data for supervised learning tasks.|True|
+(The Elements of Statistical Learning). Metoda ν-SVM gwarantuje, że parametr ν jest dokładną frakcją wektorów nośnych w zbiorze treningowym, niezależnie od rozkładu danych.|False|
+Batch gradient descent more commonly used than stochastic gradient descent for training MLPs.|False|
+(The Elements of Statistical Learning). W SVM z jądrem RBF, gdy gamma dąży do zera, a C dąży do zera, model zawsze staje się równoważny klasyfikatorowi stałemu, który przypisuje wszystkim punktom klasę mniejszościową.|False|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z miękkim marginesem, punkty treningowe z 0 < αi < C zawsze mają zmienne luzu (slack variables) równe zero.|False|
+(The Elements of Statistical Learning: Data Mining, Inference, and Prediction). In a random forest, the prediction of the ensemble is the mode of the predictions from individual trees in classification tasks.|True|
+(Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow). W SVM z jądrem RBF (radial basis function), zwiększenie parametru gamma zawsze prowadzi do zmniejszenia błędu treningowego.|False|
+(An Introduction to Statistical Learning). Bagging involves fitting multiple models independently and then averaging their predictions.|True|
+(An Introduction to Statistical Learning). In random forests, each tree is built using a different subset of features to encourage diversity among the trees.|True|
+"(The Elements of Statistical Learning). W SVM do klasyfikacji wieloklasowej metodą ""jeden-przeciwko-jednemu"", liczba trenowanych klasyfikatorów jest zawsze równa n(n-1)/2, gdzie n to liczba klas."|True|

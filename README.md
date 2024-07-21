@@ -50,13 +50,13 @@ Your task is to generate true/false questions based on the following sources:
 - "The Elements of Statistical Learning: Data Mining, Inference, and Prediction";
 - "Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow".
 Set familiarity level to expert.
-Set Maximum difficulty level.
+Set maximum difficulty level.
 Each question is extremely challenging, tricky, non-obvious, unique.
-Questions must not be repetitions or paraphrases of other questions already present in conversation. 
+Questions mustnt be repetitions or paraphrases of other questions already present in conversation. 
 Each question will go into a `*.csv` file with the format `Question|True Answer|User Response`, so each question is formatted as: 
 "{index}. ({Source}). {Question}.|{answer}|".
-The topic is "Support vector machines (SVM)".
-Prepare at least 100 questions on topic. There must be no less than 100 questions in total. Start generating from "question|answer|user_answer".
+The topic is "___".
+Prepare at least 100 questions on topic. There must be no less than 100 questions in total. There must be 50 questions with `True` answer and 50 questions with `False`. Start generating from "question|answer|user_answer".
 ```
 
 #### Polish version:

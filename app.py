@@ -3,6 +3,12 @@ import csv
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import logging
+import json
+
+# Load configuration
+with open('config.json') as config_file:
+    config = json.load(config_file)
+    PORT = config['backend_port']
 
 # Change static_url_path to empty string to serve from root
 app = Flask(__name__, static_folder='frontend', static_url_path='')
@@ -95,4 +101,4 @@ if __name__ == '__main__':
     logger.info(f"Current working directory: {os.getcwd()}")
     logger.info(f"Static folder path: {os.path.abspath(app.static_folder)}")
     logger.info(f"CSV file path: {os.path.abspath(CSV_FILE)}")
-    app.run(host='0.0.0.0', port=2139, debug=True)
+    app.run(host='0.0.0.0', port=PORT, debug=True)

@@ -1,0 +1,14 @@
+# Ignore environment files
+.env
+# Ignore logs folder:
+logs/
+# Ignore figures folder:
+figures/
+# Ignore results folder:
+results/
+# Ignore python files:
+.pytest_cache
+.vscode
+__pycache__
+# Ignore others:
+questions.csv

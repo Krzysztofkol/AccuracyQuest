@@ -3,14 +3,15 @@
 ### Folder structure
 ```
 AccuracyQuest/
-├── questions.csv
-├── accuracy-quest-frontend.html
-├── accuracy-quest-backend.py
-└── start-accuracy-quest.bat
+├── frontend/
+├── questions/
+├── config.json
+├── app.py
+└── AccuracyQuestLauncher.bat
 ```
 ### Installation guide
 
-1. Open main repository page https://github.com/Krzysztofkol/AccuracyQuest
+1. Open main repository page
 2. Click green `<> Code` button to download the files
 3. Select `Local` tab > `HTTPS` subtab > `Download ZIP` button
 4. Download compressed folder `AccuracyQuest-main.zip` somewhere to your PC

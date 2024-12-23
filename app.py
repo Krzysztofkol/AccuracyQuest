@@ -17,11 +17,15 @@ CORS(app)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-CSV_FILE = 'questions.csv'
+# Update CSV file path
+CSV_FILE = os.path.join('questions', 'questions.csv')
 
 def read_questions():
     questions = []
     try:
+        # Ensure questions directory exists
+        os.makedirs(os.path.dirname(CSV_FILE), exist_ok=True)
+        
         with open(CSV_FILE, 'r', encoding='utf-8') as file:
             reader = csv.reader(file, delimiter='|')
             next(reader)  # Skip header
@@ -39,6 +43,9 @@ def read_questions():
 
 def write_questions(questions):
     try:
+        # Ensure questions directory exists
+        os.makedirs(os.path.dirname(CSV_FILE), exist_ok=True)
+        
         with open(CSV_FILE, 'w', encoding='utf-8', newline='') as file:
             writer = csv.writer(file, delimiter='|')
             writer.writerow(['question', 'answer', 'user_answer'])

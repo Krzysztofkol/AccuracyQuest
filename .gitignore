@@ -12,3 +12,5 @@ results/
 __pycache__
 # Ignore others:
 questions.csv
+questions/
+scratchpad.md

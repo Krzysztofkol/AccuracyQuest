@@ -83,6 +83,12 @@ def create_questions_file():
     
     return all_questions
 
+def sort_questions_by_answered(questions):
+    """Sort questions so answered ones appear first while maintaining relative order."""
+    answered = [q for q in questions if q['user_answer']]
+    unanswered = [q for q in questions if not q['user_answer']]
+    return answered + unanswered
+
 def read_questions():
     questions = []
     try:
@@ -101,6 +107,8 @@ def read_questions():
                         'correct_answer': row[2],
                         'user_answer': row[3] if len(row) > 3 else ''
                     })
+        # Sort questions so answered ones appear first
+        questions = sort_questions_by_answered(questions)
         logger.info(f"Successfully loaded {len(questions)} questions from {CSV_FILE}")
     except Exception as e:
         logger.error(f"Error reading CSV file: {e}")

@@ -40,6 +40,10 @@ async function fetchQuestions() {
         if (Array.isArray(questions) && questions.length > 0) {
             document.getElementById('totalQuestions').textContent = questions.length;
             initializeAnsweredQuestions();
+            // Find first unanswered question
+            currentIndex = questions.findIndex(q => !q.user_answer);
+            // If all questions are answered, stay at the beginning
+            if (currentIndex === -1) currentIndex = 0;
             calculateAccuracies();
             displayQuestion();
         } else {

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AccuracyQuest</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div id="app" class="container">
+        <div class="header">
+            <div>
+                <div class="accuracy">
+                    Total Accuracy:
+                    <div class="progress-bar" id="totalAccuracyBar">
+                        <div class="progress-fill" id="totalAccuracyFill"></div>
+                        <div class="progress-text" id="totalAccuracyText">0%</div>
+                    </div>
+                </div>
+                <div class="accuracy">
+                    20-Rolling Accuracy:
+                    <div class="progress-bar" id="rollingAccuracyBar">
+                        <div class="progress-fill" id="rollingAccuracyFill"></div>
+                        <div class="progress-text" id="rollingAccuracyText">0%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="question-info">
+                Question <input type="text" id="currentQuestion" value="1">/<span id="totalQuestions">0</span>
+            </div>
+        </div>
+        <div class="buttons-container">
+            <div class="button-row">
+                <button onclick="navigate(-1)" id="backButton" class="button navigation-button">Back</button>
+                <button onclick="navigate(1)" id="forwardButton" class="button navigation-button">Forward</button>
+            </div>
+            <div class="button-row">
+                <button onclick="submitAnswer('True')" id="trueButton" class="button answer-button">True</button>
+                <button onclick="submitAnswer('False')" id="falseButton" class="button answer-button">False</button>
+            </div>
+        </div>
+        <div id="questionContainer">
+            <p id="questionText" class="question"></p>
+        </div>
+    </div>
+    <script src="/app.js"></script>
+</body>
+</html>

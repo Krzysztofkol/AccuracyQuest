@@ -1,5 +1,6 @@
 import os
 import csv
+import random
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import logging
@@ -20,21 +21,85 @@ logger = logging.getLogger(__name__)
 # Update CSV file path
 CSV_FILE = os.path.join('questions', 'questions.csv')
 
-def read_questions():
+def get_subject_files():
+    questions_dir = 'questions'
+    return [f for f in os.listdir(questions_dir) 
+            if f.endswith('.csv') and f != 'questions.csv']
+
+def read_subject_file(filename):
     questions = []
+    subject = os.path.splitext(filename)[0]
+    filepath = os.path.join('questions', filename)
     try:
-        # Ensure questions directory exists
-        os.makedirs(os.path.dirname(CSV_FILE), exist_ok=True)
-        
-        with open(CSV_FILE, 'r', encoding='utf-8') as file:
+        with open(filepath, 'r', encoding='utf-8') as file:
             reader = csv.reader(file, delimiter='|')
             next(reader)  # Skip header
             for row in reader:
                 if len(row) >= 2:
                     questions.append({
+                        'subject': subject,
                         'question': row[0],
                         'correct_answer': row[1],
-                        'user_answer': row[2] if len(row) > 2 else ''
+                        'user_answer': ''
+                    })
+    except Exception as e:
+        logger.error(f"Error reading subject file {filename}: {e}")
+    return questions
+
+def create_questions_file():
+    all_questions = []
+    subject_files = get_subject_files()
+    subject_questions = {f: read_subject_file(f) for f in subject_files}
+    
+    while True:
+        # Get subjects that still have questions
+        available_subjects = {
+            subject: questions 
+            for subject, questions in subject_questions.items() 
+            if len(questions) > 0
+        }
+        
+        if not available_subjects:
+            break
+            
+        # Take one round of questions - one from each available subject
+        round_questions = []
+        for subject, questions in available_subjects.items():
+            question = random.choice(questions)
+            round_questions.append(question)
+            # Remove the selected question from available pool
+            subject_questions[subject].remove(question)
+        
+        # Shuffle the round questions before adding to final list
+        random.shuffle(round_questions)
+        all_questions.extend(round_questions)
+    
+    # Write to questions.csv
+    with open(CSV_FILE, 'w', encoding='utf-8', newline='') as file:
+        writer = csv.writer(file, delimiter='|')
+        writer.writerow(['subject', 'question', 'answer', 'user_answer'])
+        for q in all_questions:
+            writer.writerow([q['subject'], q['question'], q['correct_answer'], q['user_answer']])
+    
+    return all_questions
+
+def read_questions():
+    questions = []
+    try:
+        # Create questions.csv if it doesn't exist
+        if not os.path.exists(CSV_FILE):
+            return create_questions_file()
+            
+        with open(CSV_FILE, 'r', encoding='utf-8') as file:
+            reader = csv.reader(file, delimiter='|')
+            next(reader)  # Skip header
+            for row in reader:
+                if len(row) >= 3:
+                    questions.append({
+                        'subject': row[0],
+                        'question': row[1],
+                        'correct_answer': row[2],
+                        'user_answer': row[3] if len(row) > 3 else ''
                     })
         logger.info(f"Successfully loaded {len(questions)} questions from {CSV_FILE}")
     except Exception as e:
@@ -43,14 +108,12 @@ def read_questions():
 
 def write_questions(questions):
     try:
-        # Ensure questions directory exists
         os.makedirs(os.path.dirname(CSV_FILE), exist_ok=True)
-        
         with open(CSV_FILE, 'w', encoding='utf-8', newline='') as file:
             writer = csv.writer(file, delimiter='|')
-            writer.writerow(['question', 'answer', 'user_answer'])
+            writer.writerow(['subject', 'question', 'answer', 'user_answer'])
             for q in questions:
-                writer.writerow([q['question'], q['correct_answer'], q['user_answer']])
+                writer.writerow([q['subject'], q['question'], q['correct_answer'], q['user_answer']])
         logger.info(f"Successfully wrote {len(questions)} questions to {CSV_FILE}")
     except Exception as e:
         logger.error(f"Error writing to CSV file: {e}")

@@ -101,7 +101,7 @@ function displayQuestion() {
         return;
     }
     const question = questions[currentIndex];
-    document.getElementById('questionText').textContent = question.question;
+    document.getElementById('questionText').textContent = `[${question.subject}] ${question.question}`;
     document.getElementById('currentQuestion').value = currentIndex + 1;
     updateButtons();
 }

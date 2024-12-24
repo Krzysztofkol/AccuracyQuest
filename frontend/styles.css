@@ -150,3 +150,9 @@ body {
 .reset-button:disabled {
     background-color: #a0aec0;
 }
+
+.reset-container {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0; /* Add some margin for spacing */
+}

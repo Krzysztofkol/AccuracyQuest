@@ -25,6 +25,9 @@
                     </div>
                 </div>
             </div>
+            <div class="reset-container">
+                <button onclick="resetWrongAnswers()" id="resetWrongButton" class="button reset-button">Reset Wrong</button>
+            </div>
             <div class="question-info">
                 <div class="question-counter">
                     Question <input type="text" id="currentQuestion" value="1">/<span id="totalQuestions">0</span>
@@ -38,7 +41,6 @@
             <div class="button-row">
                 <button onclick="navigate(-1)" id="backButton" class="button navigation-button">Back</button>
                 <button onclick="navigate(1)" id="forwardButton" class="button navigation-button">Forward</button>
-                <button onclick="resetWrongAnswers()" id="resetWrongButton" class="button reset-button">Reset Wrong</button>
             </div>
             <div class="button-row">
                 <button onclick="submitAnswer('True')" id="trueButton" class="button answer-button">True</button>

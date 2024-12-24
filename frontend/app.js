@@ -224,6 +224,21 @@ async function submitAnswer(answer) {
     }
 }
 
+async function resetWrongAnswers() {
+    try {
+        const response = await fetch('/reset-wrong', {
+            method: 'POST'
+        });
+        
+        // Force page reload regardless of response
+        window.location.href = window.location.href;
+        
+    } catch (error) {
+        console.error('Error resetting wrong answers:', error);
+        alert('Failed to reset wrong answers. Please try again.');
+    }
+}
+
 function navigate(direction) {
     console.log("navigate called with direction:", direction); // Debug log
     currentIndex += direction;

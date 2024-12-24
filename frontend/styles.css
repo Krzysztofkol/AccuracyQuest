@@ -118,7 +118,8 @@ body {
     overflow: hidden;
     position: relative;
     display: inline-block;
-    margin-left: 10px;
+    margin-top: 5px;
+    margin-left: 0;
 }
 
 .progress-fill {
@@ -139,4 +140,13 @@ body {
     color: #000000;
     font-weight: bold;
     z-index: 1;
+}
+
+.reset-button {
+    background-color: #ed8936;
+    color: white;
+}
+
+.reset-button:disabled {
+    background-color: #a0aec0;
 }

@@ -11,14 +11,14 @@
         <div class="header">
             <div>
                 <div class="accuracy">
-                    Total Accuracy:
+                    <div>Total Accuracy:</div>
                     <div class="progress-bar" id="totalAccuracyBar">
                         <div class="progress-fill" id="totalAccuracyFill"></div>
                         <div class="progress-text" id="totalAccuracyText">0%</div>
                     </div>
                 </div>
                 <div class="accuracy">
-                    20-Rolling Accuracy:
+                    <div>20-Rolling Accuracy:</div>
                     <div class="progress-bar" id="rollingAccuracyBar">
                         <div class="progress-fill" id="rollingAccuracyFill"></div>
                         <div class="progress-text" id="rollingAccuracyText">0%</div>
@@ -38,6 +38,7 @@
             <div class="button-row">
                 <button onclick="navigate(-1)" id="backButton" class="button navigation-button">Back</button>
                 <button onclick="navigate(1)" id="forwardButton" class="button navigation-button">Forward</button>
+                <button onclick="resetWrongAnswers()" id="resetWrongButton" class="button reset-button">Reset Wrong</button>
             </div>
             <div class="button-row">
                 <button onclick="submitAnswer('True')" id="trueButton" class="button answer-button">True</button>

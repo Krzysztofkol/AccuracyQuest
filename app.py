@@ -3,8 +3,13 @@ import csv
 import random
 import logging
 import json
+import sys
 from flask import Flask, jsonify, request, send_from_directory
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
+
+# Add immediate debugging
+print("Python executable:", sys.executable)
+print("Current working directory:", os.getcwd())
 
 # Load configuration
 with open('config.json') as config_file:
@@ -188,8 +193,33 @@ def submit_answer():
     logger.error(f"Invalid question index: {index}")
     return jsonify({'success': False, 'error': 'Invalid question index'}), 400
 
+@app.route('/reset-wrong', methods=['POST'])
+@cross_origin()
+def reset_wrong_answers():
+    try:
+        questions = read_questions()
+        for q in questions:
+            if q['user_answer'] and normalize_answer(q['user_answer']) != normalize_answer(q['correct_answer']):
+                q['user_answer'] = ''
+        
+        write_questions(questions)
+        return jsonify({"status": "success"}), 200
+    except Exception as e:
+        print(f"Error in reset_wrong_answers: {str(e)}", file=sys.stderr)
+        return jsonify({"status": "error", "message": str(e)}), 500
+
 if __name__ == '__main__':
-    logger.info(f"Current working directory: {os.getcwd()}")
-    logger.info(f"Static folder path: {os.path.abspath(app.static_folder)}")
-    logger.info(f"CSV file path: {os.path.abspath(CSV_FILE)}")
-    app.run(host='0.0.0.0', port=PORT, debug=True)
+    try:
+        # Ensure questions directory exists
+        os.makedirs('questions', exist_ok=True)
+        
+        # Add startup logging
+        print(f"Starting server on port {PORT}")
+        print(f"Static folder path: {os.path.abspath(app.static_folder)}")
+        print(f"CSV file path: {os.path.abspath(CSV_FILE)}")
+        
+        app.run(host='0.0.0.0', port=PORT, debug=True)
+    except Exception as e:
+        print(f"Startup error: {str(e)}", file=sys.stderr)
+        input("Press Enter to exit...")
+        sys.exit(1)

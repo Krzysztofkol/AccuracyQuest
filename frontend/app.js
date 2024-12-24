@@ -1,9 +1,12 @@
+console.log("JavaScript file loaded"); // Initial debug log
+
 let questions = [];
 let currentIndex = 0;
 let totalCorrect = 0;
 let answeredQuestions = [];
 
 async function fetchWithRetry(url, options = {}, retries = 3) {
+    console.log("fetchWithRetry called with URL:", url); // Debug log
     try {
         const response = await fetch(url, options);
         if (!response.ok) {
@@ -21,6 +24,7 @@ async function fetchWithRetry(url, options = {}, retries = 3) {
 }
 
 async function checkBackendHealth() {
+    console.log("checkBackendHealth called"); // Debug log
     try {
         const response = await fetchWithRetry('/health');
         const data = await response.json();
@@ -34,6 +38,7 @@ async function checkBackendHealth() {
 }
 
 async function fetchQuestions() {
+    console.log("fetchQuestions called"); // Debug log
     try {
         const response = await fetchWithRetry('/api/questions');
         questions = await response.json();
@@ -56,23 +61,36 @@ async function fetchQuestions() {
 }
 
 function initializeAnsweredQuestions() {
-    answeredQuestions = questions.map(q => ({ ...q, correct: q.user_answer === q.correct_answer }));
+    console.log("initializeAnsweredQuestions called"); // Debug log
+    answeredQuestions = questions.map(q => ({
+        ...q,
+        correct: normalizeAnswer(q.user_answer) === normalizeAnswer(q.correct_answer)
+    }));
     console.log('Initialized answeredQuestions:', answeredQuestions);
 }
 
 function calculateAccuracies() {
-    const answeredCount = answeredQuestions.filter(q => q.user_answer !== '').length;
-    totalCorrect = answeredQuestions.filter(q => q.user_answer === q.correct_answer).length;
-    const totalAccuracy = (answeredCount === 0) ? 0 : (totalCorrect / answeredCount) * 100;
-    const last20Answered = answeredQuestions.filter(q => q.user_answer !== '').slice(-20);
-    const last20Correct = last20Answered.filter(q => q.user_answer === q.correct_answer).length;
-    const rollingAccuracy = (last20Answered.length === 0) ? 0 : (last20Correct / last20Answered.length) * 100;
+    console.log("calculateAccuracies called"); // Debug log
+    // Only count each question once
+    const answered = answeredQuestions.filter(q => q.user_answer !== '');
+    const correctCount = answered.filter(q => 
+        normalizeAnswer(q.user_answer) === normalizeAnswer(q.correct_answer)
+    ).length;
+    
+    const totalAccuracy = (answered.length === 0) ? 0 : (correctCount / answered.length) * 100;
+    
+    const last20 = answered.slice(-20);
+    const last20Correct = last20.filter(q => 
+        normalizeAnswer(q.user_answer) === normalizeAnswer(q.correct_answer)
+    ).length;
+    const rollingAccuracy = (last20.length === 0) ? 0 : (last20Correct / last20.length) * 100;
 
     updateProgressBar('totalAccuracy', totalAccuracy);
     updateProgressBar('rollingAccuracy', rollingAccuracy);
 }
 
 function updateProgressBar(id, percentage) {
+    console.log("updateProgressBar called with id:", id, "and percentage:", percentage); // Debug log
     const fillElement = document.getElementById(`${id}Fill`);
     const textElement = document.getElementById(`${id}Text`);
     const color = getColorForPercentage(percentage);
@@ -82,6 +100,7 @@ function updateProgressBar(id, percentage) {
 }
 
 function getColorForPercentage(percentage) {
+    console.log("getColorForPercentage called with percentage:", percentage); // Debug log
     percentage = Math.max(0, Math.min(100, percentage));
     let r, g, b = 0;
     if (percentage <= 50) {
@@ -100,6 +119,7 @@ function getColorForPercentage(percentage) {
 }
 
 function displayQuestion() {
+    console.log("displayQuestion called"); // Debug log
     if (questions.length === 0) {
         document.getElementById('questionText').textContent = 'No questions available.';
         return;
@@ -111,11 +131,13 @@ function displayQuestion() {
 }
 
 function updateButtons() {
+    console.log("updateButtons called"); // Debug log
     const question = questions[currentIndex];
     if (question.user_answer) {
         document.getElementById('trueButton').disabled = true;
         document.getElementById('falseButton').disabled = true;
-        colorAnswers(question.user_answer === question.correct_answer, question.user_answer);
+        const isCorrect = normalizeAnswer(question.user_answer) === normalizeAnswer(question.correct_answer);
+        colorAnswers(isCorrect, question.user_answer);
     } else {
         document.getElementById('trueButton').disabled = false;
         document.getElementById('falseButton').disabled = false;
@@ -126,34 +148,70 @@ function updateButtons() {
     document.getElementById('forwardButton').disabled = currentIndex === questions.length - 1;
 }
 
-function colorAnswers(isCorrect, answer) {
+function colorAnswers(isCorrect, userAnswer) {
+    console.log("colorAnswers called with isCorrect:", isCorrect, "and userAnswer:", userAnswer); // Debug log
+    // Reset both buttons
     document.getElementById('trueButton').className = 'button answer-button';
     document.getElementById('falseButton').className = 'button answer-button';
-    const selectedButton = document.getElementById(`${answer.toLowerCase()}Button`);
-    selectedButton.className = `button answer-button ${isCorrect ? 'correct' : 'incorrect'}`;
+    
+    // Get the button ID for the user's answer
+    const userAnswerNormalized = normalizeAnswer(userAnswer);
+    const userButtonId = userAnswerNormalized === 'TRUE' ? 'trueButton' : 'falseButton';
+    
+    // Style the button the user clicked
+    const userButton = document.getElementById(userButtonId);
+    userButton.className = `button answer-button ${isCorrect ? 'correct' : 'incorrect'}`;
+}
+
+function normalizeAnswer(answer) {
+    console.log("normalizeAnswer called with answer:", answer); // Debug log
+    // Handle booleans:
+    if (typeof answer === 'boolean') {
+        return answer ? 'TRUE' : 'FALSE';
+    }
+    const normalized = answer.toString().toLowerCase().trim();
+    if (normalized === 'true' || normalized === 'prawda') return 'TRUE';
+    if (normalized === 'false' || normalized === 'fałsz' || normalized === 'falsz' || 
+        normalized === 'fałs' || normalized === 'falš') return 'FALSE';
+    return normalized.toUpperCase();
 }
 
 async function submitAnswer(answer) {
+    console.log("submitAnswer called with:", answer); // Initial debug log
     try {
+        const normalizedAnswer = normalizeAnswer(answer);
+        console.log("Submitting answer:", normalizedAnswer);
+        
         const response = await fetchWithRetry('/api/answer', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ index: currentIndex, answer }),
+            body: JSON.stringify({ index: currentIndex, answer: normalizedAnswer }),
         });
+        
         const data = await response.json();
+        console.log("Server response:", data);
+        
         if (data.success) {
             const question = questions[currentIndex];
-            question.user_answer = answer;
+            question.user_answer = normalizedAnswer;
+            
+            // Use the server's determination of correctness
             const isCorrect = data.correct;
+            console.log("Answer correctness:", isCorrect);
+            console.log("Normalized user answer:", normalizedAnswer);
+            console.log("Normalized correct answer:", data.correct_answer);
+            
             answeredQuestions[currentIndex].correct = isCorrect;
-            answeredQuestions[currentIndex].user_answer = answer;
+            answeredQuestions[currentIndex].user_answer = normalizedAnswer;
+            
             if (isCorrect) {
                 totalCorrect++;
             }
+            
             calculateAccuracies();
-            colorAnswers(isCorrect, answer);
+            colorAnswers(isCorrect, normalizedAnswer);
             updateButtons();
         }
     } catch (error) {
@@ -163,11 +221,13 @@ async function submitAnswer(answer) {
 }
 
 function navigate(direction) {
+    console.log("navigate called with direction:", direction); // Debug log
     currentIndex += direction;
     displayQuestion();
 }
 
 document.getElementById('currentQuestion').addEventListener('change', (event) => {
+    console.log("currentQuestion change event triggered"); // Debug log
     let value = parseInt(event.target.value, 10);
     if (isNaN(value) || value < 1 || value > questions.length) {
         event.target.value = currentIndex + 1;

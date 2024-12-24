@@ -84,13 +84,13 @@ body {
 }
 
 .correct {
-    background-color: #48bb78;
-    color: white;
+    background-color: #48bb78 !important;
+    color: white !important;
 }
 
 .incorrect {
-    background-color: #e53e3e;
-    color: white;
+    background-color: #e53e3e !important;
+    color: white !important;
 }
 
 .progress-bar {

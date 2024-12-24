@@ -1,10 +1,10 @@
 import os
 import csv
 import random
-from flask import Flask, jsonify, request, send_from_directory
-from flask_cors import CORS
 import logging
 import json
+from flask import Flask, jsonify, request, send_from_directory
+from flask_cors import CORS
 
 # Load configuration
 with open('config.json') as config_file:
@@ -26,6 +26,15 @@ def get_subject_files():
     return [f for f in os.listdir(questions_dir) 
             if f.endswith('.csv') and f != 'questions.csv']
 
+def normalize_answer(answer):
+    """Normalize answer to uppercase TRUE/FALSE regardless of language"""
+    answer = str(answer).lower().strip()
+    if answer in ['true', 'prawda']:
+        return 'TRUE'
+    elif answer in ['false', 'fałsz', 'falsz', 'fałs', 'falš']:
+        return 'FALSE'
+    return answer.upper()
+
 def read_subject_file(filename):
     questions = []
     subject = os.path.splitext(filename)[0]
@@ -39,7 +48,7 @@ def read_subject_file(filename):
                     questions.append({
                         'subject': subject,
                         'question': row[0],
-                        'correct_answer': row[1],
+                        'correct_answer': normalize_answer(row[1]),
                         'user_answer': ''
                     })
     except Exception as e:
@@ -92,7 +101,6 @@ def sort_questions_by_answered(questions):
 def read_questions():
     questions = []
     try:
-        # Create questions.csv if it doesn't exist
         if not os.path.exists(CSV_FILE):
             return create_questions_file()
             
@@ -101,13 +109,14 @@ def read_questions():
             next(reader)  # Skip header
             for row in reader:
                 if len(row) >= 3:
+                    correct_answer = normalize_answer(row[2])
+                    user_answer = normalize_answer(row[3]) if len(row) > 3 and row[3] else ''
                     questions.append({
                         'subject': row[0],
                         'question': row[1],
-                        'correct_answer': row[2],
-                        'user_answer': row[3] if len(row) > 3 else ''
+                        'correct_answer': correct_answer,
+                        'user_answer': user_answer
                     })
-        # Sort questions so answered ones appear first
         questions = sort_questions_by_answered(questions)
         logger.info(f"Successfully loaded {len(questions)} questions from {CSV_FILE}")
     except Exception as e:
@@ -158,20 +167,24 @@ def submit_answer():
         logger.error("Invalid request data for answer submission")
         return jsonify({'success': False, 'error': 'Invalid request data'}), 400
     
-    index, answer = data['index'], data['answer']
+    index = data['index']
+    answer = normalize_answer(data['answer'])
     questions = read_questions()
     
     if 0 <= index < len(questions):
-        correct = (answer == questions[index]['correct_answer'])
+        normalized_correct = normalize_answer(questions[index]['correct_answer'])
+        logger.debug(f"Comparing answers - User: {answer}, Correct: {normalized_correct}")
+        correct = (answer == normalized_correct)
+        logger.debug(f"Answer is {'correct' if correct else 'incorrect'}")
         questions[index]['user_answer'] = answer
         write_questions(questions)
         logger.info(f"Answer submitted successfully for question {index}")
         return jsonify({
             'success': True,
             'correct': correct,
-            'correct_answer': questions[index]['correct_answer']
+            'correct_answer': normalized_correct
         })
-    
+
     logger.error(f"Invalid question index: {index}")
     return jsonify({'success': False, 'error': 'Invalid question index'}), 400
 

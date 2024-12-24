@@ -85,6 +85,10 @@ function calculateAccuracies() {
     ).length;
     const rollingAccuracy = (last20.length === 0) ? 0 : (last20Correct / last20.length) * 100;
 
+    // Calculate and update answered percentage with 2 decimal places
+    const answeredPercentage = (answered.length / questions.length * 100).toFixed(2);
+    document.getElementById('answeredPercentage').textContent = answeredPercentage;
+
     updateProgressBar('totalAccuracy', totalAccuracy);
     updateProgressBar('rollingAccuracy', rollingAccuracy);
 }
@@ -96,7 +100,7 @@ function updateProgressBar(id, percentage) {
     const color = getColorForPercentage(percentage);
     fillElement.style.width = `${percentage}%`;
     fillElement.style.backgroundColor = color;
-    textElement.textContent = `${percentage.toFixed(0)}%`;
+    textElement.textContent = `${percentage.toFixed(2)}%`;
 }
 
 function getColorForPercentage(percentage) {

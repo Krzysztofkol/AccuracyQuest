@@ -28,7 +28,24 @@ body {
     font-size: 18px;
     font-weight: bold;
     display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.question-counter {
+    display: flex;
     align-items: center;
+}
+
+.answered-percentage {
+    font-size: 18px;
+    color: #666;
+}
+
+.question-info span#answeredPercentage {
+    font-size: 18px;
+    color: #666;
 }
 
 #currentQuestion {

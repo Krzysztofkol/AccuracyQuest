@@ -103,7 +103,56 @@ def sort_questions_by_answered(questions):
     unanswered = [q for q in questions if not q['user_answer']]
     return answered + unanswered
 
-def read_questions():
+def get_questions_hash():
+    """Generate a hash representing the current state of subject files"""
+    hash_str = ""
+    for filename in sorted(get_subject_files()):
+        filepath = os.path.join('questions', filename)
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                hash_str += f.read()
+        except Exception as e:
+            logger.error(f"Error reading file {filename} for hash: {e}")
+    return hash(hash_str)
+
+def remove_unanswered_questions(questions):
+    """Remove all unanswered questions from the list"""
+    return [q for q in questions if q['user_answer']]
+
+def sample_new_questions():
+    """Sample new questions from all subject files"""
+    return create_questions_file()
+
+def check_and_update_questions():
+    """Check for changes in subject files and update questions if needed"""
+    # Read questions without checking for updates to prevent recursion
+    questions = read_questions(check_for_updates=False)
+    if not questions:
+        return sample_new_questions()
+
+    # Keep only answered questions
+    answered_questions = remove_unanswered_questions(questions)
+    
+    # Sample new questions
+    new_questions = sample_new_questions()
+    
+    # Remove any new questions that match answered questions to avoid duplicates
+    answered_set = {(q['subject'], q['question']) for q in answered_questions}
+    unique_new_questions = [
+        q for q in new_questions 
+        if (q['subject'], q['question']) not in answered_set
+    ]
+    
+    # Combine answered questions with new ones
+    updated_questions = answered_questions + unique_new_questions
+    
+    # Write the updated questions back to file
+    write_questions(updated_questions)
+    
+    return updated_questions
+
+def read_questions(check_for_updates=True):
+    """Read questions from CSV file. Set check_for_updates=False to skip update check."""
     questions = []
     try:
         if not os.path.exists(CSV_FILE):
@@ -122,8 +171,25 @@ def read_questions():
                         'correct_answer': correct_answer,
                         'user_answer': user_answer
                     })
+        
+        # Only check for updates if flag is True
+        if check_for_updates:
+            current_hash = get_questions_hash()
+            try:
+                with open('questions/last_hash.txt', 'r') as f:
+                    last_hash = int(f.read().strip())
+            except:
+                last_hash = None
+                
+            if last_hash != current_hash:
+                logger.info("Changes detected in subject files, updating questions...")
+                questions = check_and_update_questions()
+                # Save new hash
+                with open('questions/last_hash.txt', 'w') as f:
+                    f.write(str(current_hash))
+        
         questions = sort_questions_by_answered(questions)
-        logger.info(f"Successfully loaded {len(questions)} questions from {CSV_FILE}")
+        logger.info(f"Successfully loaded {len(questions)} questions")
     except Exception as e:
         logger.error(f"Error reading CSV file: {e}")
     return questions
@@ -206,6 +272,16 @@ def reset_wrong_answers():
         return jsonify({"status": "success"}), 200
     except Exception as e:
         print(f"Error in reset_wrong_answers: {str(e)}", file=sys.stderr)
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route('/api/update-questions', methods=['POST'])
+@cross_origin()
+def force_update_questions():
+    try:
+        questions = check_and_update_questions()
+        return jsonify({"status": "success", "question_count": len(questions)}), 200
+    except Exception as e:
+        logger.error(f"Error updating questions: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == '__main__':

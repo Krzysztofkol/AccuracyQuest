@@ -156,3 +156,21 @@ body {
     justify-content: center;
     margin: 10px 0; /* Add some margin for spacing */
 }
+
+/* Add LaTeX styling */
+.katex-display {
+    margin: 1em 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.katex {
+    font-size: 1.1em;
+}
+
+/* Ensure inline math doesn't break line height */
+.katex-inline {
+    vertical-align: middle;
+}

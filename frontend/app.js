@@ -129,7 +129,19 @@ function displayQuestion() {
         return;
     }
     const question = questions[currentIndex];
-    document.getElementById('questionText').textContent = `[${question.subject}] ${question.question}`;
+    const questionElement = document.getElementById('questionText');
+    questionElement.innerHTML = `[${question.subject}] ${question.question}`;
+    
+    // Render LaTeX expressions
+    renderMathInElement(questionElement, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false},
+            {left: "\\[", right: "\\]", display: true}
+        ],
+        throwOnError: false
+    });
+    
     document.getElementById('currentQuestion').value = currentIndex + 1;
     updateButtons();
 }

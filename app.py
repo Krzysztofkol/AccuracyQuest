@@ -45,19 +45,31 @@ def read_subject_file(filename):
     subject = os.path.splitext(filename)[0]
     filepath = os.path.join('questions', filename)
     try:
-        with open(filepath, 'r', encoding='utf-8') as file:
-            reader = csv.reader(file, delimiter='|')
-            next(reader)  # Skip header
-            for row in reader:
-                if len(row) >= 2:
+        logger.debug(f"Reading subject file: {filepath}")
+        with open(filepath, 'r', encoding='utf-8') as f:
+            lines = f.read().splitlines()
+            # Skip the header line
+            if len(lines) > 0:
+                lines = lines[1:]
+            for line in lines:
+                # Split from the right into at most 3 parts
+                parts = line.rsplit('|', 2)
+                if len(parts) >= 2:
+                    question = parts[0]
+                    answer = parts[1]
+                    user_answer = parts[2] if len(parts) == 3 else ''
                     questions.append({
                         'subject': subject,
-                        'question': row[0],
-                        'correct_answer': normalize_answer(row[1]),
+                        'question': question,
+                        'correct_answer': normalize_answer(answer),
                         'user_answer': ''
                     })
+                else:
+                    logger.warning(f"Invalid row in {filename}: {line}")
+        logger.info(f"Successfully loaded {len(questions)} questions from {filename}")
     except Exception as e:
         logger.error(f"Error reading subject file {filename}: {e}")
+        logger.exception(e)  # Log full traceback
     return questions
 
 def create_questions_file():
@@ -90,7 +102,7 @@ def create_questions_file():
     
     # Write to questions.csv
     with open(CSV_FILE, 'w', encoding='utf-8', newline='') as file:
-        writer = csv.writer(file, delimiter='|')
+        writer = csv.writer(file, delimiter=';', quotechar='"', quoting=csv.QUOTE_ALL, escapechar='\\')
         writer.writerow(['subject', 'question', 'answer', 'user_answer'])
         for q in all_questions:
             writer.writerow([q['subject'], q['question'], q['correct_answer'], q['user_answer']])
@@ -159,7 +171,7 @@ def read_questions(check_for_updates=True):
             return create_questions_file()
             
         with open(CSV_FILE, 'r', encoding='utf-8') as file:
-            reader = csv.reader(file, delimiter='|')
+            reader = csv.reader(file, delimiter=';', quotechar='"', escapechar='\\', quoting=csv.QUOTE_ALL)
             next(reader)  # Skip header
             for row in reader:
                 if len(row) >= 3:
@@ -198,7 +210,7 @@ def write_questions(questions):
     try:
         os.makedirs(os.path.dirname(CSV_FILE), exist_ok=True)
         with open(CSV_FILE, 'w', encoding='utf-8', newline='') as file:
-            writer = csv.writer(file, delimiter='|')
+            writer = csv.writer(file, delimiter=';', quotechar='"', quoting=csv.QUOTE_ALL, escapechar='\\')
             writer.writerow(['subject', 'question', 'answer', 'user_answer'])
             for q in questions:
                 writer.writerow([q['subject'], q['question'], q['correct_answer'], q['user_answer']])
